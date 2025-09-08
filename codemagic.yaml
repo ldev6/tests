@@ -32,11 +32,6 @@ workflows:
         script: |
           echo $testKeystores | base64 --decode > /tmp/keystore.keystore
 
-      - name: Build Android Test APK
-        script: |
-          cd android
-          ./gradlew assembleAndroidTest
-
       - name: Run Espresso Tests
         script: |
           # This command executes your instrumented tests.
