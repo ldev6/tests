@@ -23,12 +23,8 @@ workflows:
     scripts:
       - name: Start emulator
         script: |
-        # Start the Android emulator with API level 34 (Android 14)
-          flutter emulators --launch emulator-34
-        # Wait for the emulator to be fully ready before running tests
-          flutter emulators --launch emulator-34
-        # Wait for the emulator to be fully ready (add a sleep command here if needed)
-          sleep 60
+          emulator -avd emulator > /dev/null 2>&1 &
+
 
       - name: Set Android SDK location
         script: |
