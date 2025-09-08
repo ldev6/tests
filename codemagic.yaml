@@ -30,8 +30,9 @@ workflows:
           echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
       - name: Generate debug keystore
         script: |
-          mkdir -p $HOME/.android
-          keytool -genkeypair -v \
+          if [ ! -f "$HOME/.android/debug.keystore" ]; then
+            mkdir -p $HOME/.android
+            keytool -genkeypair -v \
             -keystore $HOME/.android/debug.keystore \
             -alias androiddebugkey \
             -storepass android \
@@ -40,7 +41,9 @@ workflows:
             -keyalg RSA \
             -keysize 2048 \
             -validity 10000
-
+          else
+           echo "Debug keystore already exists, skipping generation."
+          fi
       - name: Run Espresso Tests
         script: |
           # This command executes your instrumented tests.
