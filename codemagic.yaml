@@ -18,13 +18,16 @@ workflows:
       branch_patterns:
         - pattern: master
           include: true
-        - pattern: develop
-          include: true
 
     scripts:
-      - name : launching android emulator
+      - name: Start emulator
         script: |
-          emulator -avd emulator > /dev/null 2>&1 &
+          sdkmanager --install "system-images;android-30;google_apis;x86_64"
+          avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --device "pixel"
+          emulator -avd test -no-audio -no-boot-anim -no-window &
+          adb wait-for-device
+          adb shell input keyevent 82
+
       - name: Set Android SDK location
         script: |
           echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
@@ -36,8 +39,8 @@ workflows:
         script: |
           # This command executes your instrumented tests.
           # Ensure your test runner is configured in your build.gradle.
-          cd android
-          ./gradlew connectedAndroidTest
+          cd android && ./gradlew connectedAndroidTest
+
 
     artifacts:
       # Define any artifacts to be collected, e.g., test reports
