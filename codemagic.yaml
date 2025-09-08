@@ -28,10 +28,18 @@ workflows:
       - name: Set Android SDK location
         script: |
           echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
-      - name: Set up keystore
+      - name: Generate debug keystore
         script: |
-          echo $debugKey | base64 --decode > "$CM_BUILD_DIR/android/app/debug.keystore"
-          cat >> "$FCI_BUILD_DIR/key.properties" <<EOF
+          mkdir -p $HOME/.android
+          keytool -genkeypair -v \
+            -keystore $HOME/.android/debug.keystore \
+            -alias androiddebugkey \
+            -storepass android \
+            -keypass android \
+            -dname "CN=Android Debug,O=Android,C=US" \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000
 
       - name: Run Espresso Tests
         script: |
