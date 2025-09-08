@@ -22,11 +22,7 @@ workflows:
     scripts:
       - name: Start emulator
         script: |
-          sdkmanager --install "system-images;android-30;google_apis;x86_64"
-          avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --device "pixel"
-          emulator -avd test -no-audio -no-boot-anim -no-window &
-          adb wait-for-device
-          adb shell input keyevent 82
+          emulator -avd emulator > /dev/null 2>&1 &
 
       - name: Set Android SDK location
         script: |
@@ -34,6 +30,7 @@ workflows:
       - name: Set up keystore
         script: |
           echo $testKeystores | base64 --decode > /tmp/keystore.keystore
+          cat >> "$FCI_BUILD_DIR/key.properties" <<EOF
 
       - name: Run Espresso Tests
         script: |
