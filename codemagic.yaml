@@ -30,7 +30,7 @@ workflows:
           echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
       - name: Set up keystore
         script: |
-          echo $debugKey | base64 --decode > /tmp/keystore.keystore
+          echo $debugKey | base64 --decode > "$CM_BUILD_DIR/android/app/debug.keystore"
           cat >> "$FCI_BUILD_DIR/key.properties" <<EOF
 
       - name: Run Espresso Tests
