@@ -1,7 +1,7 @@
 workflows:
   android-espresso-tests:
     name: Android Espresso Tests
-    instance_type: mac_mini_m2 # Or another suitable instance type
+    instance_type: linux_x2 # Or another suitable instance type
     max_build_duration: 60 # Maximum build duration in minutes
 
     environment:
