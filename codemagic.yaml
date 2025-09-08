@@ -25,6 +25,9 @@ workflows:
       - name : launching android emulator
         script: |
           emulator -avd emulator > /dev/null 2>&1 &
+      - name: Set Android SDK location
+        script: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
       - name: Set up keystore
         script: |
           echo $testKeystores | base64 --decode > /tmp/keystore.keystore
