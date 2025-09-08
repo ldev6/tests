@@ -24,6 +24,7 @@ workflows:
       - name: Start emulator
         script: |
           cd $ANDROID_HOME/tools
+          emulator -list-avds
           emulator -avd emulator &
           adb wait-for-device
 
