@@ -56,7 +56,7 @@ workflows:
 
     artifacts:
       # Define any artifacts to be collected, e.g., test reports
-      - $CM_BUILD_DIR/android/app/build/reports/**/*.xml
+      - $CM_BUILD_DIR/android/app/build/reports/androidTests/**/*.xml
       - $CM_BUILD_DIR/android/app/build/outputs/apk/androidTest/**/*.apk
 
 
