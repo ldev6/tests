@@ -6,6 +6,7 @@ workflows:
 
     environment:
       android_signing:
+        - debugKey
         - testKeystores
       # Define any environment variables needed for your tests, e.g., API keys
       #vars:
@@ -29,7 +30,7 @@ workflows:
           echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
       - name: Set up keystore
         script: |
-          echo $testKeystores | base64 --decode > /tmp/keystore.keystore
+          echo $debugKey | base64 --decode > /tmp/keystore.keystore
           cat >> "$FCI_BUILD_DIR/key.properties" <<EOF
 
       - name: Run Espresso Tests
