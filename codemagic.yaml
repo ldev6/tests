@@ -22,9 +22,9 @@ workflows:
           include: true
 
     scripts:
-      - name: Set Android SDK location
+      - name : launching android emulator
         script: |
-          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
+          emulator -avd emulator > /dev/null 2>&1 &
       - name: Set up keystore
         script: |
           echo $testKeystores | base64 --decode > /tmp/keystore.keystore
