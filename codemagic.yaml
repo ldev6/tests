@@ -52,7 +52,7 @@ workflows:
           set -e
           ./gradlew connectedAndroidTest --warning-mode all
           adb logcat -d > emulator.log
-        test_report: app/build/outputs/androidTest-results/connected/*.xml
+        test_report: app/build/reports/androidTests/connected/**/*.xml
 
     artifacts:
       # Define any artifacts to be collected, e.g., test reports
