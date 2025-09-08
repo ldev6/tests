@@ -22,9 +22,12 @@ workflows:
           include: true
 
     scripts:
-      - name: Set up Android SDK
+      - name: Set Android SDK location
         script: |
-          echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$CM_BUILD_DIR/android/local.properties"
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
+      - name: Set up keystore
+        script: |
+          echo $CM_KEYSTORE | base64 --decode > /tmp/keystore.keystore
 
       - name: Build Android Test APK
         script: |
@@ -51,4 +54,3 @@ workflows:
         notify:
           success: true
           failure: false
-  
