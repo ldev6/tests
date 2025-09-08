@@ -23,8 +23,9 @@ workflows:
     scripts:
       - name: Start emulator
         script: |
-          emulator -avd emulator > /dev/null 2>&1 &
-
+          cd $ANDROID_HOME/tools
+          emulator -avd emulator &
+          adb wait-for-device
 
       - name: Set Android SDK location
         script: |
@@ -47,10 +48,10 @@ workflows:
           fi
       - name: Run Espresso Tests
         script: |
-          # This command executes your instrumented tests.
-          # Ensure your test runner is configured in your build.gradle.
-          ./gradlew connectedAndroidTest --warning-mode=all
-
+          set -e
+          ./gradlew connectedAndroidTest --warning-mode all
+          adb logcat -d > emulator.log
+        test_report: app/build/outputs/androidTest-results/connected/*.xml
 
     artifacts:
       # Define any artifacts to be collected, e.g., test reports
