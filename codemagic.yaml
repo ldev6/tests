@@ -24,10 +24,10 @@ workflows:
     scripts:
       - name: Set Android SDK location
         script: |
-          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$testKeystores/local.properties"
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
       - name: Set up keystore
         script: |
-          echo $CM_KEYSTORE | base64 --decode > /tmp/keystore.keystore
+          echo $testKeystores | base64 --decode > /tmp/keystore.keystore
 
       - name: Build Android Test APK
         script: |
