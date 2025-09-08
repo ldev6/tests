@@ -23,7 +23,23 @@ workflows:
     scripts:
       - name: Start emulator
         script: |
-          emulator -avd emulator > /dev/null 2>&1 &
+          sdkmanager --install "system-images;android-30;google_apis;x86_64"
+          avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --device "pixel" --force
+          emulator -avd test -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect &
+          
+          # Wait for device
+          adb wait-for-device
+          
+          # Wait until boot completed
+          boot_completed=""
+          until [[ "$boot_completed" == "1" ]]; do
+            sleep 5
+            boot_completed=$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')
+            echo "Waiting for emulator... boot_completed=$boot_completed"
+          done
+          
+          # Unlock screen
+          adb shell input keyevent 82
 
       - name: Set Android SDK location
         script: |
